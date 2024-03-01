@@ -1,6 +1,13 @@
 import socket, threading
 connlist = []
 
+def giveingdatasend(conn):
+    while True:
+        bangsongdata = conn.recv(1024).decode()
+        bangsongdata = str(bangsongdata)
+        print(f"서버에 데이터가 와 클라이언트에게 전송합니다.. 받은 데이터 : {bangsongdata}")
+        clientbangsong(bangsongdata)
+
 def start():
     global connlist
     host = socket.gethostname()
@@ -16,15 +23,7 @@ def start():
         print(f"콘 : {conn}")
         print(f"어드레스 : {addr}")
         clientbangsong(f"클라이언트가 접속했습니다. 콘 : {conn}, 어드레스 : {addr}")
-        threading.Thread(target=giveingdatasend, args=conn).start()
-
-def giveingdatasend(conn):
-    while True:
-        bangsongdata = conn.recv(1024).decode()
-        bangsongdata = str(bangsongdata)
-        clientbangsong(bangsongdata)
-        print(f"서버에 데이터가 와 클라이언트에게 전송합니다.. 받은 데이터 : {bangsongdata}")
-        clientbangsong(bangsongdata)
+        threading.Thread(target=giveingdatasend, args=[conn,]).start()
 
 def clientbangsong(data):
     global connlist
