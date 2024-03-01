@@ -2,7 +2,7 @@ import socket, threading
 connlist = []
 
 def start():
-    global connlist, connlist2
+    global connlist
     host = socket.gethostname()
     server = socket.socket()
     server.bind((host, 1010))
@@ -24,6 +24,7 @@ def giveingdatasend(conn):
         bangsongdata = str(bangsongdata)
         clientbangsong(bangsongdata)
         print(f"서버에 데이터가 와 클라이언트에게 전송합니다.. 받은 데이터 : {bangsongdata}")
+        clientbangsong(bangsongdata)
 
 def clientbangsong(data):
     global connlist
